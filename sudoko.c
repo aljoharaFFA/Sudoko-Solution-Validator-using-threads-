@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #define NUM_THREADS 27 
-//why 27 threads? for each grid in the sudoko there will be a thread validating
+//why 27 threads? for each grid in the sudoko there will be a thread validating the validity, a thread for each row and column
 
 // strcutures are just objects (like classes in java)
 typedef struct {
