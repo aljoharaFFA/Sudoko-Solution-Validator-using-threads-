@@ -2,39 +2,49 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
-#define NUM_THREADS 27 
-//why 27 threads? for each grid in the sudoko there will be a thread validating the validity, a thread for each row and column
-
-// strcutures are just objects (like classes in java)
-typedef struct {
-  int row;
-  int column;
-} input;// input is the name of our 
+#define rows 9
+#define cols 9
 
 
-int sudoku[9][9] = {0}; //a sudoko puzzle is 9 by 9 table. Also we are setting the 2D array to 0, so all enteries within the array is set to 0.
 
-int main() {
-  
-    int i,j; //global variable, so we dont have to type int everytime we want to implenet something, so just typing i or j quick is much simpler.
-  
-  //here we will be taking input from the user, the syntax:
-  printf("enter sodoku puzzle");// i is for row, j is for column
-  for(i = 0; i < 9; i++){
-    for(j = 0; j < 9; j++) {
-      scanf("%d", &sudoku[i][j]);
+void* checkColumn(void * args){
+  printf("in");
+  int i,j,w;
+  int (*array)[rows][cols] = args;
+  for (i = 0; i < rows; i++){
+    for (j = 0; j < cols; j++){
+      for (w = 0; w < cols - 1; w++) {
+        printf("here");
+        if ((*array)[rows][cols] == (*array)[rows][cols + 1]){
+          printf("false");
+          pthread_exit(NULL);
+         
+        }
+      }
     }
   }
-  //priting sudoku
-  printf("\n your soduku is");
-  for(i = 0; i < 9; i++){
-    for (j = 0; j< 9; j++){
-      printf("%d", sudoku[i][j]);
-    }
-      printf("\n");
-  }
-  
-  //------------------------------------------------------------
-  
+}
+
+
+
+
+
+
+int main(){
+  int sudoko[rows][cols] = {
+    {9,2,7,1,5,4,3,9,6}
+    ,{9,6,5,3,2,7,1,4,8}
+    ,{3,4,1,6,8,9,7,5,2}
+    ,{5,9,3,4,6,8,2,7,1}
+    ,{4,7,2,5,1,3,6,8,9}
+    ,{6,1,8,9,7,2,4,3,5}
+    ,{7,8,6,2,3,5,9,1,4}
+    ,{1,5,4,7,9,6,8,2,3}
+    ,{2,3,9,8,4,1,5,6,7}
+  };
+  pthread_t thread;
+  pthread_create(&thread, NULL, checkColumn, sudoko);
+  pthread_join(thread, NULL);
   
 }
+
