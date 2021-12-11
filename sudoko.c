@@ -20,17 +20,17 @@ REFERENCE: The Book page 199.*/ // i set the array to 2 because we created 3 thr
 
 
 void *rowthread(){
-int i,j;
-int count;
+  int i,j;
+  int count;
 
-for(int x=2;x<9;x++){
+for(int x=0;x<9;x++){
   for(i=0;i<9;i++){
     count=0;
     for(j=0;j<9;j++){
       if(sudoko[x][j]==sudoko[x][i])
         count++;
       if(count>=2){
-        thread_return_0or1[0] = 0;//thread detected a duplicate entry
+        thread_return_0or1[0] = 0;
         pthread_exit(NULL);
  
     }}}
@@ -43,10 +43,10 @@ for(int x=2;x<9;x++){
 void *columnthread(){
   int i,j;
   int count;
-  for(int x=1;x<9;x++){
+  for(int x=0;x<9;x++){
     for(i=0;i<9;i++){
       count=0;
-      for(j=2;j<9;j++){
+      for(j=0;j<9;j++){
         if(sudoko[j][x]==sudoko[i][x])
           count++;
         if(count>=2){
@@ -59,13 +59,14 @@ void *columnthread(){
   pthread_exit(NULL);
 
 }
+
 void *matrix(){
 int i,j,k,l;
 int count;
 
-for(int x=0;x<9;x+=3){
+for(int x=0;x<9;x+=3){//rows
   for(int h=0;h<9;h+=3){
-    for(k=x;k<x+3;k++){
+    for(k=x;k<x+3;k++){//
       for(l=h;l<h+3;l++){
      count=0;
         for(i=x;i<x+3;i++){
@@ -103,13 +104,3 @@ pthread_create(&thread, NULL, rowthread,NULL);
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
